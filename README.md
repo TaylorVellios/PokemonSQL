@@ -4,11 +4,11 @@ To create a local relational database of Pokemon data using Python-BS4 and Panda
 ### Dependencies
 | Py Library | Install |
 |------------|---------|
-|[Requests](https://pypi.org/project/requests/)||
-|[BS4 - BeautifulSoup](https://pypi.org/project/bs4/)||
-|[Pandas](https://pandas.pydata.org/)||
-|[SQLAlchemy](https://www.sqlalchemy.org/)||
-|[Psycopg2](https://pypi.org/project/psycopg2/)||
+|[Requests](https://pypi.org/project/requests/)|pip install requests|
+|[BS4 - BeautifulSoup](https://pypi.org/project/bs4/)|pip install bs4|
+|[Pandas](https://pandas.pydata.org/)|pip install pandas|
+|[SQLAlchemy](https://www.sqlalchemy.org/)|pip install SQLAlchemy|
+|[Psycopg2](https://pypi.org/project/psycopg2/)|pip install psycopg2-binary|
 
 ## Disclaimer
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>

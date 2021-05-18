@@ -3,7 +3,7 @@ To create a local relational database of Pokemon data using Python-BS4 and Panda
 
 This project is taking a look at how much data manipulation is necessary to create a functioning relational system with Pokemon data.</br>
 
-### Dependencies
+## Dependencies
 | Python Library | Install |
 |------------|---------|
 |[Requests](https://pypi.org/project/requests/)|pip install requests|
@@ -16,7 +16,7 @@ This project is taking a look at how much data manipulation is necessary to crea
 |-----------------|
 |[pgAdmin](https://www.pgadmin.org/)|
 
-## Disclaimer
+# Disclaimer
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>
 All python code within this repository is for educational purposes only.</br>
 For anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
@@ -28,7 +28,7 @@ For the sake of organization, we will be creating two main tables separated by g
 * Pokemon_Stats to contain Battle-related data
 * Pokemon_Details to contain character-specific information (height, weight, breeding stats, etc)
 
-### Pokemon_Stats
+## Pokemon_Stats
 Based on [this](https://www.serebii.net/pokemon/all.shtml) page, there are two main focus points that need addressing after we get a raw scrape.</br>
 
 ![stats_raw](https://user-images.githubusercontent.com/14188580/118673075-556fed80-b7be-11eb-8d55-6b4110fac5ad.PNG)
@@ -38,7 +38,7 @@ The 'Type' and 'Abilities' columns are both returned as strings that will need s
 'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.</br>
 Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.</br>
 
-### Abilities
+## Abilities
 Based on [this](https://pokemondb.net/ability) page, obtaining all of the possible Abilities was the easiest scrape in this project.</br>
 
 ![abilities](https://user-images.githubusercontent.com/14188580/118676935-71c15980-b7c1-11eb-963e-a0307eb8a185.PNG)
@@ -59,8 +59,40 @@ After looping through the dataframe and parsing the abilities out to 4 new colum
 
 ![stats_final](https://user-images.githubusercontent.com/14188580/118679937-f1502800-b7c3-11eb-8d5b-bae9750abc1c.PNG)
 
-### Pokemon_Details
+## Pokemon_Details
 Based on [this](https://pokemondb.net/pokedex/national) page, the Details table requires requesting and parsing a new page for every Pokemon.</br>
+Due to the amount of pings made to the host server, I made sure to include a 1 second time.sleep() function per iteration of Pokemon name.</br>
 
 ![details_raw](https://user-images.githubusercontent.com/14188580/118681840-856ebf00-b7c5-11eb-8584-b8a226e7ec93.PNG)
 
+I learned the hard way going into this section that there are some Pokemon that have names that don't have a 1:1 representation between their name and PokemonDB url.
+</br>
+The following dictionary is the result of playing some url golf.</br>
+```
+to_change = {'Mr. Mime': 'mr-mime',
+             'Mime Jr.': 'mime-jr',
+             'Flabébé': 'flabebe',
+             'Type: Null': 'type-null',
+             'Tapu Koko': 'tapu-koko',
+             'Tapu Lele': 'tapu-lele',
+             'Tapu Bulu': 'tapu-bulu',
+             'Tapu Fini': 'tapu-fini',
+             "Sirfetch'd": 'sirfetchd',
+             'Mr. Rime': 'mr-rime'}
+```
+The main loop for this table accomplishes two things:
+* obtaining as much data as possible from each page for the dataframe
+* saving the official artwork for each character under a new folder in this repo's directory named 'Artwork'
+
+![imgs](https://user-images.githubusercontent.com/14188580/118687036-32e3d180-b7ca-11eb-8076-40dd0d350d8c.PNG)
+
+While these images don't help much with our goal of importing data into a postgres database, it is a very handy bit of code should we decide to build a proper JSON object later on down the road. Since we are already hitting a page for every single pokemon, might as well grab what we can while we are there.</br>
+
+The only columns that DON'T need cleaning in the details table are 'Name' and 'Species'.</br>
+Using Regex, Pandas functions, and list comprehensions, the following table is our final output for the Pokemon_Details table:</br>
+
+![details_final](https://user-images.githubusercontent.com/14188580/118691884-21e98f00-b7cf-11eb-96fa-af04068869f7.PNG)
+
+With the three dataframes that we have so far, the tables and their relationships look something like this:</br>
+
+![diag1](https://user-images.githubusercontent.com/14188580/118692665-e8fdea00-b7cf-11eb-8ebb-769ddd52273a.PNG)

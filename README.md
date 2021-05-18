@@ -1,7 +1,9 @@
-# PokemonSQL
-Using Python-BS4 and Pandas to ETL all Pokemon data into a new relational database with SQLAlchemy and Psycopg2
+# Purpose
+To create a local relational database of Pokemon data using Python-BS4 and Pandas for ETL in coordination with SQLAlchemy and Psycopg2 to communicate with pgAdmin.</br>
 
 ### Dependencies
+Py Library | Install
+-----------------------
 * [Requests](https://pypi.org/project/requests/)
 * [BS4 - BeautifulSoup](https://pypi.org/project/bs4/)
 * [Pandas](https://pandas.pydata.org/)

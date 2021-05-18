@@ -16,17 +16,21 @@ This project is taking a look at how much data manipulation is necessary to crea
 |-----------------|
 |[pgAdmin](https://www.pgadmin.org/)|
 
+
 # Disclaimer
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>
 All python code within this repository is for educational purposes only.</br>
 For anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
 A Relational Database is not the ideal storage solution for this type of data, use the API above if you are interested in acquiring mass Pokemon data.</br>
 
+
 ## Extracting, Transforming Character Data
 If you are unfamiliar with the Pokemon franchise, each monster character is a goldmine of data.</br>
 For the sake of organization, we will be creating two main tables separated by game function:
 * Pokemon_Stats to contain Battle-related data
 * Pokemon_Details to contain character-specific information (height, weight, breeding stats, etc)
+
+As you will see in a moment, we will be making a third table, 'Abilities', that will assist us with these other two tables.<br></br>
 
 ## Pokemon_Stats
 Based on [this](https://www.serebii.net/pokemon/all.shtml) page, there are two main focus points that need addressing after we get a raw scrape.</br>
@@ -36,7 +40,7 @@ Based on [this](https://www.serebii.net/pokemon/all.shtml) page, there are two m
 At this point, the 'Type' and 'Abilities' columns are not suitable for a postgreSQL database and will need exploding into new columns.</br>
 'Type' is a simple fix, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
 'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.</br>
-Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.</br>
+Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.<br></br>
 
 ## Abilities
 Based on [this](https://pokemondb.net/ability) page, obtaining all of the possible Abilities was the easiest scrape in this project.</br>
@@ -57,7 +61,7 @@ Above, I'm using the permutations function imported from itertools to generate t
 
 After looping through the dataframe and parsing the abilities out to 4 new columns, we have our first completed table:</br>
 
-![stats_final](https://user-images.githubusercontent.com/14188580/118679937-f1502800-b7c3-11eb-8d5b-bae9750abc1c.PNG)
+![stats_final](https://user-images.githubusercontent.com/14188580/118679937-f1502800-b7c3-11eb-8d5b-bae9750abc1c.PNG)<br></br>
 
 ## Pokemon_Details
 Based on [this](https://pokemondb.net/pokedex/national) page, the Details table requires requesting and parsing a new page for every Pokemon.</br>

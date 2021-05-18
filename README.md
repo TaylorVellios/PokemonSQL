@@ -18,3 +18,5 @@ To create a local relational database of Pokemon data using Python-BS4 and Panda
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>
 All python code within this repository is for educational purposes only.</br>
 For anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
+
+## Extracting, Transforming Character Data

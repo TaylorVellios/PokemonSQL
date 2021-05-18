@@ -88,7 +88,7 @@ The main loop for this table accomplishes two things:
 
 While these images don't help much with our goal of importing data into a postgres database, it is a very handy bit of code to keep in the event we decide to build a proper JSON object later on down the road. Since we are already hitting a page for every single pokemon, might as well grab what we can while we are there.</br>
 
-The only columns that DON'T need cleaning in the details table are 'Name' and 'Species'.</br>
+The only columns that DON'T need cleaning in the raw details table are 'Name' and 'Species'.</br>
 Using Regex, Pandas functions, list comprehensions, and a large looping section to handle the EVs_Given, the following table is our final output for the Pokemon_Details table:</br>
 ```
 pokemon_details['Egg_Steps'] = pokemon_details['Egg_Steps'].map(lambda x: re.findall('\-(.+)\s',x)[0].replace(',',''))
@@ -110,6 +110,7 @@ pokemon_details['Egg_Group2'] = [i[1].replace(',','') if len(i)>1 else 'None' fo
 pokemon_details = pokemon_details.drop(columns=['Egg_Groups'])
 
 ```
+
 ![details_final](https://user-images.githubusercontent.com/14188580/118691884-21e98f00-b7cf-11eb-96fa-af04068869f7.PNG)
 
 With the three dataframes that we have so far, the tables and their relationships look something like this:</br>

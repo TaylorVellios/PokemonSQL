@@ -2,13 +2,13 @@
 To create a local relational database of Pokemon data using Python-BS4 and Pandas for ETL in coordination with SQLAlchemy and Psycopg2 to communicate with pgAdmin.</br>
 
 ### Dependencies
-Py Library | Install
------------------------
-* [Requests](https://pypi.org/project/requests/)
-* [BS4 - BeautifulSoup](https://pypi.org/project/bs4/)
-* [Pandas](https://pandas.pydata.org/)
-* [SQLAlchemy](https://www.sqlalchemy.org/)
-* [Psycopg2](https://pypi.org/project/psycopg2/)
+| Py Library | Install |
+|------------|---------|
+|[Requests](https://pypi.org/project/requests/)||
+|[BS4 - BeautifulSoup](https://pypi.org/project/bs4/)||
+|[Pandas](https://pandas.pydata.org/)||
+|[SQLAlchemy](https://www.sqlalchemy.org/)||
+|[Psycopg2](https://pypi.org/project/psycopg2/)||
 
 ## Disclaimer
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>

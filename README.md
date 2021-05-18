@@ -40,6 +40,7 @@ Before locking this table into a .csv we will have to retrieve all of the possib
 
 ### Abilities
 Based on [this](https://pokemondb.net/ability) page, obtaining all of the possible Abilities was the easiest scrape in this project.</br>
+
 ![abilities](https://user-images.githubusercontent.com/14188580/118676935-71c15980-b7c1-11eb-963e-a0307eb8a185.PNG)
 
 Using the list of abilities, we can then use itertools to make some sense out of the Abilities column in the pokemon_stats table.</br>
@@ -55,4 +56,11 @@ Above, I'm using the permutations function imported from itertools to generate t
 * no3 is the same as no2 but attempting to make permutations with a word length of 3 (r=3)
 
 After looping through the dataframe and parsing the abilities out to 4 new columns, we have our first completed table:</br>
+
 ![stats_final](https://user-images.githubusercontent.com/14188580/118679937-f1502800-b7c3-11eb-8d5b-bae9750abc1c.PNG)
+
+### Pokemon_Details
+Based on [this](https://pokemondb.net/pokedex/national) page, the Details table requires requesting and parsing a new page for every Pokemon.</br>
+
+![details_raw](https://user-images.githubusercontent.com/14188580/118681840-856ebf00-b7c5-11eb-8584-b8a226e7ec93.PNG)
+

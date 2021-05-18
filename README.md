@@ -33,7 +33,7 @@ Based on [this](https://www.serebii.net/pokemon/all.shtml) page, there are two m
 
 ![stats_raw](https://user-images.githubusercontent.com/14188580/118673075-556fed80-b7be-11eb-8d55-6b4110fac5ad.PNG)
 
-The 'Type' and 'Abilities' columns are both returned as strings that will need separating into their own columns.</br>
+At this point, the 'Type' and 'Abilities' columns are not suitable for a postgreSQL database and will need exploding into new columns.</br>
 'Type' is a simple fix, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
 'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.</br>
 Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.</br>
@@ -86,11 +86,30 @@ The main loop for this table accomplishes two things:
 
 ![imgs](https://user-images.githubusercontent.com/14188580/118687036-32e3d180-b7ca-11eb-8076-40dd0d350d8c.PNG)
 
-While these images don't help much with our goal of importing data into a postgres database, it is a very handy bit of code should we decide to build a proper JSON object later on down the road. Since we are already hitting a page for every single pokemon, might as well grab what we can while we are there.</br>
+While these images don't help much with our goal of importing data into a postgres database, it is a very handy bit of code to keep in the event we decide to build a proper JSON object later on down the road. Since we are already hitting a page for every single pokemon, might as well grab what we can while we are there.</br>
 
 The only columns that DON'T need cleaning in the details table are 'Name' and 'Species'.</br>
-Using Regex, Pandas functions, and list comprehensions, the following table is our final output for the Pokemon_Details table:</br>
+Using Regex, Pandas functions, list comprehensions, and a large looping section to handle the EVs_Given, the following table is our final output for the Pokemon_Details table:</br>
+```
+pokemon_details['Egg_Steps'] = pokemon_details['Egg_Steps'].map(lambda x: re.findall('\-(.+)\s',x)[0].replace(',',''))
+pokemon_details['Catch_Rate'] = pokemon_details['Catch_Rate'].apply(lambda x: x.split()[0])
+pokemon_details['Base_Friendship'] = pokemon_details['Base_Friendship'].apply(lambda x: x.split(' ')[0])
 
+pokemon_details['Height'] = pokemon_details['Height'].map(lambda x: re.findall('\((.*)\)', x)[0])
+pokemon_details['Weight'] = pokemon_details['Weight'].map(lambda x: re.findall('\((.*)lbs\)', x)[0])
+pokemon_details = pokemon_details.rename(columns={'Weight':'Weight_lbs'})
+
+genders = [(i.split(',')[0].replace('% male',''), i.split(',')[1].replace('% female','')) if i!='Genderless' else i for i in pokemon_details['Gender_Spread']]
+pokemon_details['Male%'] = [i[0] if len(i)==2 else 'Genderless' for i in genders]
+pokemon_details['Female%'] = [i[1] if len(i)==2 else 'Genderless' for i in genders]
+pokemon_details = pokemon_details.drop(columns=['Gender_Spread'])
+
+egg_groups = [[j for j in i.split() if not j.replace(',','').isnumeric()] for i in pokemon_details['Egg_Groups']]
+pokemon_details['Egg_Group1'] = [i[0].replace(',','') for i in egg_groups]
+pokemon_details['Egg_Group2'] = [i[1].replace(',','') if len(i)>1 else 'None' for i in egg_groups]
+pokemon_details = pokemon_details.drop(columns=['Egg_Groups'])
+
+```
 ![details_final](https://user-images.githubusercontent.com/14188580/118691884-21e98f00-b7cf-11eb-96fa-af04068869f7.PNG)
 
 With the three dataframes that we have so far, the tables and their relationships look something like this:</br>

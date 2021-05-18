@@ -8,4 +8,4 @@ Using Python-BS4 and Pandas to ETL all Pokemon data into a new relational databa
 * re
 * os
 * SQLAlchemy
-* (https://pypi.org/project/psycopg2/)[Psycopg2]
+* [Psycopg2](https://pypi.org/project/psycopg2/)

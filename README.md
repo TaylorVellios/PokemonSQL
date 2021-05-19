@@ -60,7 +60,7 @@ Above, I'm using the permutations function imported from itertools to generate t
 
 After looping through the dataframe and parsing the abilities out to 4 new columns, we have our first completed table:</br>
 
-![stats_final](https://user-images.githubusercontent.com/14188580/118679937-f1502800-b7c3-11eb-8d5b-bae9750abc1c.PNG)<br></br>
+![stats_final](https://user-images.githubusercontent.com/14188580/118862531-752d1180-b8a3-11eb-9835-0336f8716b2a.PNG)
 
 ## Pokemon_Details
 Based on [this](https://pokemondb.net/pokedex/national) page, the Details table requires requesting and parsing a new page for every Pokemon.</br>

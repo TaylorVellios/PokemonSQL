@@ -118,7 +118,7 @@ pokemon_details = pokemon_details.drop(columns=['Egg_Groups'])
 
 With the three dataframes that we have so far, the tables and their relationships look something like this:</br>
 
-![diag1](https://user-images.githubusercontent.com/14188580/118700703-91b04780-b7d8-11eb-8bb0-a31491542d0d.PNG)
+![diag](https://user-images.githubusercontent.com/14188580/118863233-3f3c5d00-b8a4-11eb-9b14-c787a3653f61.PNG)
 
 As it currently stands, there is no good reason why we can't combine both Pokemon_Stats and Pokemon_Details into one large table other than for the sake of simplicity and exhibition.</br>
 

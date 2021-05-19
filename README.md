@@ -21,7 +21,6 @@ This point of this project is to take a look at how much data manipulation is ne
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>
 All python code within this repository is for educational purposes only.</br>
 For anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
-A Relational Database is not the ideal storage solution for this type of data, use the API above if you are interested in acquiring mass Pokemon data.</br>
 
 
 ## Extracting, Transforming Character Data
@@ -33,12 +32,12 @@ For the sake of organization, we will be creating two main tables separated by g
 As you will see in a moment, we will be making a third table, 'Abilities', that will assist us with these other two tables.<br></br>
 
 ## Pokemon_Stats
-Based on [this](https://www.serebii.net/pokemon/all.shtml) page, there are two main focus points that need addressing after we get a raw scrape.</br>
+Based on scraping [two](https://www.serebii.net/pokemon/all.shtml) [pages](https://pokemon.fandom.com/wiki/List_of_Pok%C3%A9mon_by_evolution), the first DataFrame being made for battle-related character data comes out pretty raw even after 50+ lines of code.</br>
 
-![stats_raw](https://user-images.githubusercontent.com/14188580/118673075-556fed80-b7be-11eb-8d55-6b4110fac5ad.PNG)
+![stats_raw](https://user-images.githubusercontent.com/14188580/118860333-e0c1af80-b8a0-11eb-82ec-c5c8f4ee7b0a.PNG)
 
 At this point, the 'Type' and 'Abilities' columns are not suitable for a postgreSQL database and will need exploding into new columns.</br>
-'Type' is a simple fix, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
+'Type' is a simple fix with list comprehension, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
 'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.</br>
 Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.<br></br>
 

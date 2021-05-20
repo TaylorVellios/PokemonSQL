@@ -2,6 +2,7 @@
 To create a local relational database of Pokemon data using Python-BS4 and Pandas for ETL in coordination with SQLAlchemy and Psycopg2 to communicate with pgAdmin.</br>
 
 This point of this project is to take a look at how much data manipulation is necessary to create a functioning relational system with Pokemon data.</br>
+Finally, where a relational system isn't viable, what should be used?
 
 ## Dependencies
 | Python Library | Install |
@@ -12,15 +13,12 @@ This point of this project is to take a look at how much data manipulation is ne
 |[SQLAlchemy](https://www.sqlalchemy.org/)|pip install SQLAlchemy|
 |[Psycopg2](https://pypi.org/project/psycopg2/)|pip install psycopg2-binary|
 
-|PostgreSQL Server|
-|-----------------|
-|[pgAdmin](https://www.pgadmin.org/)|
-
+[pgAdmin](https://www.pgadmin.org/download/) - PostgreSQL
 
 # Disclaimer
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>
 All python code within this repository is for educational purposes only.</br>
-For anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
+Anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
 
 
 ## Extracting, Transforming Character Data
@@ -29,7 +27,7 @@ For the sake of organization, we will be creating two main tables separated by g
 * Pokemon_Stats to contain Battle-related data
 * Pokemon_Details to contain character-specific information (height, weight, breeding stats, etc)
 
-As you will see in a moment, we will be making a third table, 'Abilities', that will assist us with these other two tables.<br></br>
+As you will see in a moment, we will be making a third table, 'Abilities', that will assist us with cleaning up the raw scrape in Pokemon_Stats.<br></br>
 
 ## Pokemon_Stats
 Based on scraping [two](https://www.serebii.net/pokemon/all.shtml) [pages](https://pokemon.fandom.com/wiki/List_of_Pok%C3%A9mon_by_evolution), the first DataFrame being made for battle-related character data comes out pretty raw even after 50+ lines of code.</br>

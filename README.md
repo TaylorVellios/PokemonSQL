@@ -120,8 +120,13 @@ With the three dataframes that we have so far, the tables and their relationship
 
 As it currently stands, there is no good reason why we can't combine both Pokemon_Stats and Pokemon_Details into one large table other than for the sake of simplicity and exhibition.</br>
 
-5.18.2021
-Hey! Thank you for checking out my work in progress.</br>
-Coming soon:
-* Moves - all moves and which pokemon can learn them
-* adding further details that most online services don't provide for further classification of characters (Tier of Pokemon: Basic, Mythical, etc, Gen)
+# PostgreSQL
+Connecting to a local postgreSQL server in python is a fairly simple process.</br>
+In the pokemonpostgres.ipynb file, you will see the steps taken to create a database from scratch with the tables built above.</br>
+
+Be advised there is a config.py file with my personal database password saved as a string variable named *db_pass* that is being imported.</br>
+Should you use this code as a jumping off point, the connection will fail without your password implemented appropriately for cells 2 and 3.</br>
+
+After connecting to the local postgreSQL server with psycopg2, creating the database, and connecting to the new database with sqlalchemy, we can add the Pokemon .csv files to new tables.</br>
+![db1](https://user-images.githubusercontent.com/14188580/119540997-b154ec00-bd53-11eb-923e-b28d6fe2ea8c.PNG)
+

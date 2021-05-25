@@ -34,9 +34,11 @@ Based on scraping [two](https://www.serebii.net/pokemon/all.shtml) [pages](https
 
 ![stats_raw](https://user-images.githubusercontent.com/14188580/118860333-e0c1af80-b8a0-11eb-82ec-c5c8f4ee7b0a.PNG)
 
-At this point, the 'Type' and 'Abilities' columns are not suitable for a postgreSQL database and will need exploding into new columns.</br>
-'Type' is a simple fix with list comprehension, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
-'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.</br>
+Cleaning:</br>
+At this point, the 'Type' and 'Abilities' columns are not suitable for a postgreSQL database and will need exploding into new columns.
+* 'Type' is a simple fix with list comprehension, there can only be a maximum of two types per Pokemon, and each type is only one word.
+* 'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.
+
 Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.<br></br>
 
 ## Abilities
@@ -53,7 +55,7 @@ for i in pokemon['Abilities']:
 ```
 Above, I'm using the permutations function imported from itertools to generate three lists of possible string variations to check for valid abilities.</br>
 * no1 is a list of all single words found for the current ability cell
-* no2 is all combinations of the current cell that could be made with 2 words (r=2)
+* no2 is all combinations of strings within the current cell that could be made with 2 words (r=2)
 * no3 is the same as no2 but attempting to make permutations with a word length of 3 (r=3)
 
 After looping through the dataframe and parsing the abilities out to 4 new columns, we have our first completed table:</br>
@@ -129,4 +131,11 @@ Should you use this code as a jumping off point, the connection will fail withou
 
 After connecting to the local postgreSQL server with psycopg2, creating the database, and connecting to the new database with sqlalchemy, we can add the Pokemon .csv files to new tables.</br>
 ![db1](https://user-images.githubusercontent.com/14188580/119540997-b154ec00-bd53-11eb-923e-b28d6fe2ea8c.PNG)
+
+While there are approaches within sqlalchemy to use dot notation with pythonic functions to query databases, I prefer to use the .execute() method to query with SQL commands.</br>
+Below each cell where a table is created is a simple query to confirm our import was a success.</br>
+
+Looking in pgAdmin, after a refresh of our local server we can confirm the new database and its tables:
+![postgr1](https://user-images.githubusercontent.com/14188580/119545886-e9126280-bd58-11eb-96cf-3e9825c80529.PNG)
+</br>
 

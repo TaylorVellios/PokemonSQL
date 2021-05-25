@@ -2,6 +2,7 @@
 To create a local relational database of Pokemon data using Python-BS4 and Pandas for ETL in coordination with SQLAlchemy and Psycopg2 to communicate with pgAdmin.</br>
 
 This point of this project is to take a look at how much data manipulation is necessary to create a functioning relational system with Pokemon data.</br>
+Finally, where a relational system isn't viable, what should be used?
 
 ## Dependencies
 | Python Library | Install |
@@ -12,16 +13,12 @@ This point of this project is to take a look at how much data manipulation is ne
 |[SQLAlchemy](https://www.sqlalchemy.org/)|pip install SQLAlchemy|
 |[Psycopg2](https://pypi.org/project/psycopg2/)|pip install psycopg2-binary|
 
-|PostgreSQL Server|
-|-----------------|
-|[pgAdmin](https://www.pgadmin.org/)|
-
+[pgAdmin](https://www.pgadmin.org/download/) - PostgreSQL
 
 # Disclaimer
 All Data for this project is scraped from [Serebii.net](https://www.serebii.net/) and [Pokemondb.net](https://pokemondb.net/).</br>
 All python code within this repository is for educational purposes only.</br>
-For anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
-A Relational Database is not the ideal storage solution for this type of data, use the API above if you are interested in acquiring mass Pokemon data.</br>
+Anyone looking to build their own local Pokemon database, please see [The RESTful Pokemon API](https://pokeapi.co/) via [Pokedex.py](https://pypi.org/project/pokedex.py/)</br>
 
 
 ## Extracting, Transforming Character Data
@@ -30,15 +27,15 @@ For the sake of organization, we will be creating two main tables separated by g
 * Pokemon_Stats to contain Battle-related data
 * Pokemon_Details to contain character-specific information (height, weight, breeding stats, etc)
 
-As you will see in a moment, we will be making a third table, 'Abilities', that will assist us with these other two tables.<br></br>
+As you will see in a moment, we will be making a third table, 'Abilities', that will assist us with cleaning up the raw scrape in Pokemon_Stats.<br></br>
 
 ## Pokemon_Stats
-Based on [this](https://www.serebii.net/pokemon/all.shtml) page, there are two main focus points that need addressing after we get a raw scrape.</br>
+Based on scraping [two](https://www.serebii.net/pokemon/all.shtml) [pages](https://pokemon.fandom.com/wiki/List_of_Pok%C3%A9mon_by_evolution), the first DataFrame being made for battle-related character data comes out pretty raw even after 50+ lines of code.</br>
 
-![stats_raw](https://user-images.githubusercontent.com/14188580/118673075-556fed80-b7be-11eb-8d55-6b4110fac5ad.PNG)
+![stats_raw](https://user-images.githubusercontent.com/14188580/118860333-e0c1af80-b8a0-11eb-82ec-c5c8f4ee7b0a.PNG)
 
 At this point, the 'Type' and 'Abilities' columns are not suitable for a postgreSQL database and will need exploding into new columns.</br>
-'Type' is a simple fix, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
+'Type' is a simple fix with list comprehension, there can only be a maximum of two types per Pokemon, and each type is only one word.</br>
 'Abilities' on the other hand, can have up to 4 per Pokemon, and can be up to 3 words in length.</br>
 Before locking this table into a .csv we will have to retrieve all of the possible Abilities to cross reference against this messy column.<br></br>
 
@@ -61,7 +58,7 @@ Above, I'm using the permutations function imported from itertools to generate t
 
 After looping through the dataframe and parsing the abilities out to 4 new columns, we have our first completed table:</br>
 
-![stats_final](https://user-images.githubusercontent.com/14188580/118679937-f1502800-b7c3-11eb-8d5b-bae9750abc1c.PNG)<br></br>
+![stats_final](https://user-images.githubusercontent.com/14188580/118862531-752d1180-b8a3-11eb-9835-0336f8716b2a.PNG)
 
 ## Pokemon_Details
 Based on [this](https://pokemondb.net/pokedex/national) page, the Details table requires requesting and parsing a new page for every Pokemon.</br>
@@ -119,6 +116,17 @@ pokemon_details = pokemon_details.drop(columns=['Egg_Groups'])
 
 With the three dataframes that we have so far, the tables and their relationships look something like this:</br>
 
-![diag1](https://user-images.githubusercontent.com/14188580/118700703-91b04780-b7d8-11eb-8bb0-a31491542d0d.PNG)
+![diag](https://user-images.githubusercontent.com/14188580/118863233-3f3c5d00-b8a4-11eb-9b14-c787a3653f61.PNG)
 
 As it currently stands, there is no good reason why we can't combine both Pokemon_Stats and Pokemon_Details into one large table other than for the sake of simplicity and exhibition.</br>
+
+# PostgreSQL
+Connecting to a local postgreSQL server in python is a fairly simple process.</br>
+In the pokemonpostgres.ipynb file, you will see the steps taken to create a database from scratch with the tables built above.</br>
+
+Be advised there is a config.py file with my personal database password saved as a string variable named *db_pass* that is being imported.</br>
+Should you use this code as a jumping off point, the connection will fail without your password implemented appropriately for cells 2 and 3.</br>
+
+After connecting to the local postgreSQL server with psycopg2, creating the database, and connecting to the new database with sqlalchemy, we can add the Pokemon .csv files to new tables.</br>
+![db1](https://user-images.githubusercontent.com/14188580/119540997-b154ec00-bd53-11eb-923e-b28d6fe2ea8c.PNG)
+

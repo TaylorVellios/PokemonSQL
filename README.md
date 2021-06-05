@@ -1,7 +1,7 @@
 # Purpose
 To create a local relational database of Pokemon data using Python-BS4 and Pandas for ETL in coordination with SQLAlchemy and Psycopg2 to communicate with pgAdmin.</br>
 
-TEs point of this project is to take a look at how much data manipulation is necessary to create a functioning relational system with Pokemon data.</br>
+The point of this project is to take a look at how much data manipulation is necessary to create a functioning relational system with Pokemon data.</br>
 Finally, where a relational system isn't viable, what should be used?
 
 ## Dependencies
